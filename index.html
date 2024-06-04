@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Example Map by Alex</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+
+        .numbered-icon .number {
+            background-color: #ff5733;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            height: 32px;
+            line-height: 32px;
+            text-align: center;
+            width: 86px;
+        }
+
+        .leaflet-popup-content-wrapper {
+            font-family: Arial, sans-serif;
+        }
+
+        .leaflet-popup-content a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .leaflet-popup-content a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([20, 0], 2);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+        }).addTo(map);
+
+        var locations = [
+            { lat: 40.7128, lon: -74.0060, label: 'New York', article: 'New_York_City' },
+            { lat: 51.5074, lon: -0.1278, label: 'London', article: 'London' },
+            { lat: -6.8182, lon: 8.2275, label: 'Switzerland', article: 'Switzerland' }
+        ];
+
+        locations.forEach(function (location) {
+            var icon = L.divIcon({
+                className: 'numbered-icon',
+                html: '<div class="number">' + location.label + '</div>',
+                iconSize: [50, 50],
+                iconAnchor: [25, 25]
+            });
+
+            var marker = L.marker([location.lat, location.lon], { icon: icon }).addTo(map);
+            marker.bindPopup('<strong>' + location.label + '</strong><br><a href="https://en.wikipedia.org/wiki/' + location.article + '" target="_blank">Read more</a>');
+        });
+    </script>
+</body>
+
+</html>
